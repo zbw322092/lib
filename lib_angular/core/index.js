@@ -1,2 +1,2 @@
-// require('./WebApiBase.js');
+require('./WebApiBase.js');
 require('./ngDialog.js');
