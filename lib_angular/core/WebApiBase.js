@@ -24,7 +24,7 @@ app.factory('WebApiBase',
         return {
           code: result.code || '0000',
           message: result.message || '',
-          data: result.data ? {} : result.data
+          data: result.data ? result.data: {}
         }
       },
 
@@ -34,7 +34,7 @@ app.factory('WebApiBase',
         return {
           code: result.code || '9999',
           message: result.message || 'server error',
-          data: result.data ? {} : result.data
+          data: result.data ? result.data : {}
         }
       },
       
@@ -45,21 +45,25 @@ app.factory('WebApiBase',
 
       // perform http request
       request: function(settting, resProcess) {
-        var outerThis = this;
         var deferred = $q.defer();
-
+        
         $http(settting)
-          .then(function(result) {
-            result = outerThis.responseDataParser(result);
+          .then(this.bind(function(result) {
+            result = this.responseDataParser(result);
             result = angular.isFunction(resProcess) ? resProcess(result) : result;
             deferred.resolve(result);
-          })
-          .catch(function(error) {
-            error = outerThis.responseErrorParser(error);
+          }))
+          .catch(this.bind(function(error) {
+            error = this.responseErrorParser(error);
             deferred.reject(error)
-          });
+          }));
 
         return deferred.promise;
+      },
+
+      bind: function(fn, context) {
+        var args = [context || this, fn].concat(Array.prototype.slice.call(arguments, 2));
+        return angular.bind.apply(angular.bind, args);
       }
 
     });
