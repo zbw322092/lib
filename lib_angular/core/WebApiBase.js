@@ -13,7 +13,7 @@ app.factory('WebApiBase',
 
     function WebApiBase() {
 
-    };
+    }
 
     angular.extend(WebApiBase, {
       extend: extend
@@ -44,8 +44,19 @@ app.factory('WebApiBase',
       },
       
       // gather request data which will be sent to server
-      getRequestData: function(data) {
-        return angular.extend(this.baseData, data);
+      getRequestData: function(reqPath, setting) {
+        setting.url = this.getRequestUrl(reqPath);
+        return angular.extend(this.baseData, setting);
+      },
+
+      // overwrite it in business logic
+      getBizRequestUrl: function() {
+      },
+
+      getRequestUrl: function(reqPath) {
+        var root = this.getBizRequestUrl();
+        reqPath = encodeURI(reqPath);
+        return root + reqPath;
       },
 
       // perform http request

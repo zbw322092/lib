@@ -1,4 +1,4 @@
-var _envName = window.BLOG.getEnvName();
+var _envName = window.BLOG.envName;
 
 app.factory('EnvironmentBase', ['extend', function(extend) {
 
@@ -12,12 +12,14 @@ app.factory('EnvironmentBase', ['extend', function(extend) {
 
   angular.extend(EnvironmentBase.prototype, {
     
-    get: function(key, envName) {
-      if (!key) {
-        console.log('Key name is required');
+    get: function(apiKey, envName) {
+      if (!apiKey) {
+        console.log('apiKey name is required');
       }
 
-      var envResult = this[key];
+      envName = envName ? envName : _envName;
+
+      var envResult = this[apiKey];
       if (angular.isObject(envResult)) {
         return envResult[envName];
       } else {
