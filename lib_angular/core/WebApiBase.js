@@ -3,18 +3,23 @@ app.factory('WebApiBase',
     '$log',
     '$q',
     '$http',
+    'extend',
   function(
     $log,
     $q,
-    $http
+    $http,
+    extend
   ) {
 
     function WebApiBase() {
 
     };
 
+    angular.extend(WebApiBase, {
+      extend: extend
+    });
+
     angular.extend(WebApiBase.prototype, {
-      
       // base data which will send to server in every request
       baseData: {},
 

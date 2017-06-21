@@ -25,8 +25,8 @@ app.factory('extend', ['$log', function($log) {
     var parent = this;
     var child;
 
-    if (props.hasOwnProperty('constructor')) {
-      child = props.constructor;
+    if (protoProps.hasOwnProperty('constructor')) {
+      child = protoProps.constructor;
     } else {
       child = function() {
         return parent.apply(this, arguments);
