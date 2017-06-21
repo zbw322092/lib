@@ -10,7 +10,7 @@ function getQueryString(queryName) {
 }
 
 function getEnvName() {
-  var envName = getQueryString('env');
+  var envName = getQueryString('env') || 'prod';
   return envName;
 }
 
